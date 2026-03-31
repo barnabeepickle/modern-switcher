@@ -28,6 +28,7 @@ public class MinecraftKeyF3Mixin {
                 } else {
                     minecraft.debugFeedbackTranslated("debug.mgms.switcher.error.unable");
                 }
+                cir.setReturnValue(true);
             }
         }
     }
