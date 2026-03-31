@@ -1,5 +1,6 @@
 package com.github.barnabeepickle.mgms;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -30,5 +31,9 @@ public class ModernSwitcherMod {
     @Mod.EventHandler
     public void loadEvent(FMLInitializationEvent event) {
 
+    }
+
+    public static boolean canSwitchGameMode(Minecraft minecraft) {
+        return minecraft.player != null;
     }
 }
