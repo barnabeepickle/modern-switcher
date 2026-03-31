@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Minecraft.class)
 public class MinecraftKeyF3Mixin {
 
-    @Inject(method = "processKeyF3(I)Z", at = @At("RETURN"))
+    @Inject(method = "processKeyF3(I)Z", at = @At("RETURN"), cancellable = true)
     private void processKeyF3(int auxKey, CallbackInfoReturnable<Boolean> cir) {
         // Check if the return value is false so we know no other F3 + keybinds are acting
         if (!cir.getReturnValue()) {
