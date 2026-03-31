@@ -1,11 +1,13 @@
 {
-	"package": "",
-	"required": true,
+	"package": "com.github.barnabeepickle.mgms.core.mixins",
+	"required": false,
 	"refmap": "${mixin_refmap}",
 	"target": "@env(DEFAULT)",
 	"minVersion": "0.8.5",
 	"compatibilityLevel": "JAVA_8",
 	"mixins": [],
 	"server": [],
-	"client": []
+	"client": [
+		"early.minecraft.MinecraftKeyF3Mixin"
+	]
 }
