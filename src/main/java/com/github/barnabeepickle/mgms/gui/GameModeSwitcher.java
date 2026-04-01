@@ -6,7 +6,10 @@ import com.cleanroommc.modularui.screen.CustomModularScreen;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.viewport.ModularGuiContext;
 import com.cleanroommc.modularui.utils.Alignment;
+import com.cleanroommc.modularui.widget.Widget;
 import com.cleanroommc.modularui.widgets.RichTextWidget;
+import com.cleanroommc.modularui.widgets.layout.Column;
+import com.cleanroommc.modularui.widgets.layout.Flow;
 import net.minecraft.world.GameType;
 
 import javax.annotation.Nonnull;
@@ -30,13 +33,14 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .fullWidth()
                 .height(10)
                 .top(4)
-                .alignment(Alignment.CENTER);
+                .alignment(Alignment.CENTER)
+                .autoUpdate(true);
         gamemodeText.textBuilder(text -> {
             // Both of these uses translation strings already in Minecraft
             if (selectedMode != GameType.NOT_SET) {
-                text.addLine(IKey.lang("gameMode." + selectedMode.getName()));
+                text.add(IKey.lang("gameMode." + selectedMode.getName()));
             } else {
-                text.addLine(IKey.lang("selectWorld.gameMode"));
+                text.add(IKey.lang("selectWorld.gameMode"));
             }
         });
         panel.child(gamemodeText);
