@@ -1,5 +1,5 @@
 {
-	"package": "com.github.barnabeepickle.mgms.core.mixins",
+	"package": "com.github.barnabeepickle.mgms.core.mixins.early",
 	"required": false,
 	"refmap": "${mixin_refmap}",
 	"target": "@env(DEFAULT)",
@@ -8,6 +8,6 @@
 	"mixins": [],
 	"server": [],
 	"client": [
-		"early.minecraft.MinecraftKeyF3Mixin"
+		"minecraft.MinecraftKeyF3Mixin"
 	]
 }
