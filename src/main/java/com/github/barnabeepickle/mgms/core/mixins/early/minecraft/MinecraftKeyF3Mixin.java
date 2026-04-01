@@ -1,6 +1,8 @@
 package com.github.barnabeepickle.mgms.core.mixins.early.minecraft;
 
+import com.cleanroommc.modularui.factory.ClientGUI;
 import com.github.barnabeepickle.mgms.ModernSwitcherMod;
+import com.github.barnabeepickle.mgms.gui.GameModeSwitcher;
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,6 +16,7 @@ public class MinecraftKeyF3Mixin {
     private void processKeyF3(int auxKey, CallbackInfoReturnable<Boolean> cir) {
         // Check if the return value is false so we know no other F3 + keybinds are acting
         if (!cir.getReturnValue()) {
+            ModernSwitcherMod.LOGGER.info("from mixin");
             Minecraft minecraft = Minecraft.getMinecraft();
             // Check if auxKey is the keybind's key code for the switcher
             if (auxKey == ModernSwitcherMod.switcherKeybind.getKeyCode() && minecraft.currentScreen == null) {
@@ -21,7 +24,8 @@ public class MinecraftKeyF3Mixin {
                 if (ModernSwitcherMod.canSwitchGameMode(minecraft)) {
                     // Run a check that the player has permissions to switch gamemodes
                     if (minecraft.player.canUseCommand(2, "")) {
-                        // This is where the switcher ui is opened
+                        ModernSwitcherMod.LOGGER.info("from mixin gui");
+                        ClientGUI.open(new GameModeSwitcher()); // This opens the gamemode switcher ui
                     } else {
                         minecraft.debugFeedbackTranslated("debug.mgms.switcher.error.permissions");
                     }
