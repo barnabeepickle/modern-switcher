@@ -6,9 +6,7 @@ import com.cleanroommc.modularui.screen.CustomModularScreen;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.viewport.ModularGuiContext;
 import com.cleanroommc.modularui.utils.Alignment;
-import com.cleanroommc.modularui.widget.Widget;
 import com.cleanroommc.modularui.widgets.RichTextWidget;
-import com.cleanroommc.modularui.widgets.layout.Row;
 import net.minecraft.world.GameType;
 
 import javax.annotation.Nonnull;
