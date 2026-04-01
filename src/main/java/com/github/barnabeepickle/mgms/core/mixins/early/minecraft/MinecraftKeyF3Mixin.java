@@ -24,7 +24,7 @@ public class MinecraftKeyF3Mixin {
                 if (ModernSwitcherMod.canSwitchGameMode(minecraft)) {
                     // Run a check that the player has permissions to switch gamemodes
                     if (minecraft.player.canUseCommand(2, "")) {
-                        ClientGUI.open(new GameModeSwitcher()); // This opens the gamemode switcher ui
+                        ClientGUI.open(new GameModeSwitcher(Tags.MODID)); // This opens the gamemode switcher ui
                     } else {
                         minecraft.debugFeedbackTranslated("debug.mgms.switcher.error.permissions");
                     }

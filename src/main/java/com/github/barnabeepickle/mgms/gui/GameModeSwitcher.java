@@ -6,8 +6,11 @@ import com.cleanroommc.modularui.screen.viewport.ModularGuiContext;
 
 import javax.annotation.Nonnull;
 
-@SuppressWarnings({"UnstableApiUsage", "deprecation"})
 public class GameModeSwitcher extends CustomModularScreen {
+    public GameModeSwitcher(String owner) {
+        super(owner);
+    }
+
     @Nonnull
     @Override
     public ModularPanel buildUI(ModularGuiContext context) {
