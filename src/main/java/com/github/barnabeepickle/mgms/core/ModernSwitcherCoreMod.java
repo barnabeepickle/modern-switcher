@@ -40,6 +40,6 @@ public class ModernSwitcherCoreMod implements IFMLLoadingPlugin, IEarlyMixinLoad
 
     @Override
     public List<String> getMixinConfigs() {
-        return Collections.singletonList("mixin.mgms.json");
+        return Collections.singletonList("mixins.mgms.json");
     }
 }
