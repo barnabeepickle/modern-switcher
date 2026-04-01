@@ -16,7 +16,7 @@ public class MinecraftKeyF3Mixin {
         if (!cir.getReturnValue()) {
             Minecraft minecraft = Minecraft.getMinecraft();
             // Check if auxKey is the keybind's key code for the switcher
-            if (auxKey == ModernSwitcherMod.switcherKeybind.getKeyCode()) {
+            if (auxKey == ModernSwitcherMod.switcherKeybind.getKeyCode() && minecraft.currentScreen == null) {
                 // Run a check that the player isn't borked
                 if (ModernSwitcherMod.canSwitchGameMode(minecraft)) {
                     // Run a check that the player has permissions to switch gamemodes

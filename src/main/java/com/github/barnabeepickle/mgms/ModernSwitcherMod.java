@@ -34,6 +34,6 @@ public class ModernSwitcherMod {
     }
 
     public static boolean canSwitchGameMode(Minecraft minecraft) {
-        return minecraft.player != null;
+        return minecraft.player != null && minecraft.world != null;
     }
 }
