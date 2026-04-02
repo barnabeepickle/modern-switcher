@@ -104,6 +104,7 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .textBuilder(text -> text.add(IKey.lang("ui.switcher.keybind_next", IKey.lang("ui.switcher.brackets", ModernSwitcherMod.switcherKeybind.getDisplayName()))));
         panel.child(keybindNextText);
 
+
         ModeIconWidget creative = new ModeIconWidget()
                 .value(this.creative)
                 .size(24)
