@@ -10,6 +10,7 @@ import com.cleanroommc.modularui.widget.Widget;
 import com.cleanroommc.modularui.widgets.RichTextWidget;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Flow;
+import com.github.barnabeepickle.mgms.ModernSwitcherMod;
 import net.minecraft.world.GameType;
 
 import javax.annotation.Nonnull;
@@ -46,6 +47,17 @@ public class GameModeSwitcher extends CustomModularScreen {
             }
         });
         panel.child(gamemodeText);
+
+        // RichTextWidget is currently broken and won't center the text correctly
+        // this will be fixed in the next modularui update
+        RichTextWidget keybindNextText = new RichTextWidget()
+                .horizontalCenter()
+                .fullWidth()
+                .height(10)
+                .bottom(4)
+                .alignment(Alignment.CENTER)
+                .textBuilder(text -> text.add(IKey.lang("ui.switcher.keybind_next", IKey.lang("ui.switcher.brackets", ModernSwitcherMod.switcherKeybind.getDisplayName()))));
+        panel.child(keybindNextText);
 
         return panel;
     }

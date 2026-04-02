@@ -3,3 +3,6 @@ key.mgms.switcher=Gamemode Switcher Key
 
 debug.mgms.switcher.error.unable=Unable to switch gamemode
 debug.mgms.switcher.error.permissions=Unable to use gamemode switcher, no permissions
+
+ui.switcher.brackets=§b[ %s ]§r
+ui.switcher.keybind_next=%s Next
