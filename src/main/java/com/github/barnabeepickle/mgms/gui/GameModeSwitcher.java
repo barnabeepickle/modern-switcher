@@ -15,13 +15,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.world.GameType;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
-import java.util.List;
+import java.util.ArrayList;
 
+@SideOnly(Side.CLIENT)
 public class GameModeSwitcher extends CustomModularScreen {
-    private static final List<GameType> modeHistory = List.of(new GameType[0]);
+    private static final ArrayList<GameType> modeHistory = new ArrayList<>(0);
     private GameType selectedMode = GameType.NOT_SET;
 
     public GameModeSwitcher(String owner) {
@@ -139,6 +142,7 @@ public class GameModeSwitcher extends CustomModularScreen {
 
         ModeIconWidget creative = new ModeIconWidget()
                 .value(this.creative)
+                .stateCount(1)
                 .size(24)
                 .disableHoverBackground()
                 .disableHoverOverlay()
@@ -154,6 +158,7 @@ public class GameModeSwitcher extends CustomModularScreen {
 
         ModeIconWidget survival = new ModeIconWidget()
                 .value(this.survival)
+                .stateCount(1)
                 .size(24)
                 .disableHoverBackground()
                 .disableHoverOverlay()
@@ -169,6 +174,7 @@ public class GameModeSwitcher extends CustomModularScreen {
 
         ModeIconWidget adventure = new ModeIconWidget()
                 .value(this.adventure)
+                .stateCount(1)
                 .size(24)
                 .disableHoverBackground()
                 .disableHoverOverlay()
@@ -184,6 +190,7 @@ public class GameModeSwitcher extends CustomModularScreen {
 
         ModeIconWidget spectator = new ModeIconWidget()
                 .value(this.spectator)
+                .stateCount(1)
                 .size(24)
                 .disableHoverBackground()
                 .disableHoverOverlay()
