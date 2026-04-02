@@ -6,11 +6,9 @@ import com.cleanroommc.modularui.screen.CustomModularScreen;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.viewport.ModularGuiContext;
 import com.cleanroommc.modularui.utils.Alignment;
-import com.cleanroommc.modularui.widget.Widget;
 import com.cleanroommc.modularui.widgets.RichTextWidget;
-import com.cleanroommc.modularui.widgets.layout.Column;
-import com.cleanroommc.modularui.widgets.layout.Flow;
 import com.github.barnabeepickle.mgms.ModernSwitcherMod;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.GameType;
 
 import javax.annotation.Nonnull;
@@ -24,9 +22,15 @@ public class GameModeSwitcher extends CustomModularScreen {
         IThemeApi.get().registerThemeForScreen(owner, "switcher_panel", "vanilla_dark");
     }
 
+    private static GameType getCurrentMode(Minecraft minecraft) {
+        return minecraft.playerController.getCurrentGameType();
+    }
+
     @Nonnull
     @Override
     public ModularPanel buildUI(ModularGuiContext context) {
+        Minecraft minecraft = context.getMC();
+
         ModularPanel panel = ModularPanel.defaultPanel("switcher_panel").size(125, 75);
 
         // RichTextWidget is currently broken and won't center the text correctly
