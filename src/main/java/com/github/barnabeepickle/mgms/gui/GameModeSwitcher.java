@@ -8,7 +8,6 @@ import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.viewport.ModularGuiContext;
 import com.cleanroommc.modularui.utils.Alignment;
 import com.cleanroommc.modularui.value.BoolValue;
-import com.cleanroommc.modularui.widgets.CycleButtonWidget;
 import com.cleanroommc.modularui.widgets.RichTextWidget;
 import com.cleanroommc.modularui.widgets.layout.Flow;
 import com.github.barnabeepickle.mgms.ModernSwitcherMod;
@@ -16,11 +15,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.world.GameType;
+import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class GameModeSwitcher extends CustomModularScreen {
-    private static final GameType[] modeHistory = new GameType[0];
+    private static final List<GameType> modeHistory = List.of(new GameType[0]);
     private GameType selectedMode = GameType.NOT_SET;
 
     public GameModeSwitcher(String owner) {
@@ -64,6 +65,37 @@ public class GameModeSwitcher extends CustomModularScreen {
                 this.survival.setBoolValue(false);
                 this.adventure.setBoolValue(false);
                 this.spectator.setBoolValue(false);
+        }
+    }
+
+    private void attemptSwitchMode(Minecraft minecraft) {
+        if (minecraft.player.canUseCommand(2, "")) {
+            if (this.selectedMode != getCurrentMode(minecraft) && !this.selectedMode.equals(GameType.NOT_SET)) {
+                minecraft.player.sendChatMessage("/gamemode " + this.selectedMode.getName());
+                modeHistory.add(this.selectedMode);
+            }
+        } else {
+            minecraft.debugFeedbackTranslated("debug.mgms.switcher.error.permissions");
+        }
+    }
+
+    private void advanceMode() {
+        switch (this.selectedMode) {
+            case CREATIVE:
+                this.selectedMode = GameType.SURVIVAL;
+                this.updateSelectedModeValues();
+            case SURVIVAL:
+                this.selectedMode = GameType.ADVENTURE;
+                this.updateSelectedModeValues();
+            case ADVENTURE:
+                this.selectedMode = GameType.SPECTATOR;
+                this.updateSelectedModeValues();
+            case SPECTATOR:
+                this.selectedMode = GameType.CREATIVE;
+                this.updateSelectedModeValues();
+            default:
+                this.selectedMode = GameType.CREATIVE;
+                this.updateSelectedModeValues();
         }
     }
 
@@ -177,6 +209,16 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .child(adventure)
                 .child(spectator);
         panel.child(modeButtons);
+
+        panel.onUpdateListener(listener -> {
+            if (!Keyboard.isKeyDown(Keyboard.KEY_F3)) {
+                this.attemptSwitchMode(minecraft);
+                panel.closeIfOpen();
+            }
+            if (ModernSwitcherMod.switcherKeybind.isPressed()) {
+                advanceMode();
+            }
+        });
 
         return panel;
     }
