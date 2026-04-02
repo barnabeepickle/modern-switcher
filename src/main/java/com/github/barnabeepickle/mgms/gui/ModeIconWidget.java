@@ -16,20 +16,16 @@ public class ModeIconWidget extends AbstractCycleButtonWidget<ModeIconWidget> {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        if (this.onMouseEnterHandler != null) {
-            this.onMouseEnterHandler.accept(this);
+        if (this.isEnabled() && this.isHovering()) {
+            if (this.onMouseEnterHandler != null) {
+                this.onMouseEnterHandler.accept(this);
+            }
         }
     }
 
     @Override
     public @Nonnull Result onMousePressed(int mouseButton) {
         return Result.IGNORE;
-    }
-
-    @Override
-    public void onMouseEnterArea() {
-        super.onMouseEnterArea();
-
     }
 
     @Nullable
