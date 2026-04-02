@@ -26,7 +26,7 @@ public class MinecraftKeyF3Mixin {
                     if (minecraft.player.canUseCommand(2, "")) {
                         ClientGUI.open(new GameModeSwitcher(Tags.MODID)); // This opens the gamemode switcher ui
                     } else {
-                        minecraft.debugFeedbackTranslated("debug.mgms.switcher.error.permissions");
+                        minecraft.debugFeedbackTranslated("debug.mgms.switcher.error.permissions.switcher");
                     }
                 } else {
                     minecraft.debugFeedbackTranslated("debug.mgms.switcher.error.unable");
