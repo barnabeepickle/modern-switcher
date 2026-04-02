@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 
 public class GameModeSwitcher extends CustomModularScreen {
     private static final GameType[] modeHistory = new GameType[0];
-    private final GameType selectedMode = GameType.NOT_SET;
+    private GameType selectedMode = GameType.NOT_SET;
 
     public GameModeSwitcher(String owner) {
         super(owner);
@@ -113,7 +113,11 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .disableThemeBackground(true)
                 .background(Assets.SWITCHER_SLOT)
                 .stateOverlay(true, Assets.SWITCHER_SLOT_SELECTED)
-                .child(new ItemDrawable(Blocks.GRASS).asWidget().center());
+                .child(new ItemDrawable(Blocks.GRASS).asWidget().center())
+                .onMouseHoverListener(listener -> {
+                    this.selectedMode = GameType.CREATIVE;
+                    this.updateSelectedModeValues();
+                });
 
         ModeIconWidget survival = new ModeIconWidget()
                 .value(this.survival)
@@ -124,7 +128,11 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .disableThemeBackground(true)
                 .background(Assets.SWITCHER_SLOT)
                 .stateOverlay(true, Assets.SWITCHER_SLOT_SELECTED)
-                .child(new ItemDrawable(Items.IRON_SWORD).asWidget().center());
+                .child(new ItemDrawable(Items.IRON_SWORD).asWidget().center())
+                .onMouseHoverListener(listener -> {
+                    this.selectedMode = GameType.SURVIVAL;
+                    this.updateSelectedModeValues();
+                });
 
         ModeIconWidget adventure = new ModeIconWidget()
                 .value(this.adventure)
@@ -135,10 +143,14 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .disableThemeBackground(true)
                 .background(Assets.SWITCHER_SLOT)
                 .stateOverlay(true, Assets.SWITCHER_SLOT_SELECTED)
-                .child(new ItemDrawable(Items.MAP).asWidget().center());
+                .child(new ItemDrawable(Items.MAP).asWidget().center())
+                .onMouseHoverListener(listener -> {
+                    this.selectedMode = GameType.ADVENTURE;
+                    this.updateSelectedModeValues();
+                });
 
         ModeIconWidget spectator = new ModeIconWidget()
-                .value(this.adventure)
+                .value(this.spectator)
                 .size(24)
                 .disableHoverBackground()
                 .disableHoverOverlay()
@@ -146,7 +158,11 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .disableThemeBackground(true)
                 .background(Assets.SWITCHER_SLOT)
                 .stateOverlay(true, Assets.SWITCHER_SLOT_SELECTED)
-                .child(Assets.SPECTATOR_ICON.asWidget().center());
+                .child(Assets.SPECTATOR_ICON.asWidget().center())
+                .onMouseHoverListener(listener -> {
+                    this.selectedMode = GameType.SPECTATOR;
+                    this.updateSelectedModeValues();
+                });
 
         Flow modeButtons = Flow.row()
                 .paddingLeft(4)
