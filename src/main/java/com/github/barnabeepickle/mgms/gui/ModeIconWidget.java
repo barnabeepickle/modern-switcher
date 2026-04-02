@@ -11,14 +11,14 @@ import java.util.function.Consumer;
 
 public class ModeIconWidget extends AbstractCycleButtonWidget<ModeIconWidget> {
     @Nullable
-    private Consumer<ModeIconWidget> onMouseEnterHandler;
+    private Consumer<ModeIconWidget> onMouseHoverListener;
 
     @Override
     public void onUpdate() {
         super.onUpdate();
         if (this.isEnabled() && this.isHovering()) {
-            if (this.onMouseEnterHandler != null) {
-                this.onMouseEnterHandler.accept(this);
+            if (this.onMouseHoverListener != null) {
+                this.onMouseHoverListener.accept(this);
             }
         }
     }
@@ -29,25 +29,25 @@ public class ModeIconWidget extends AbstractCycleButtonWidget<ModeIconWidget> {
     }
 
     @Nullable
-    public Consumer<ModeIconWidget> getOnMouseEnterHandler() {
-        return this.onMouseEnterHandler;
+    public Consumer<ModeIconWidget> getOnMouseHoverListener() {
+        return this.onMouseHoverListener;
     }
 
-    public ModeIconWidget onMouseEnterHandler(Consumer<ModeIconWidget> listener) {
-        return onMouseEnterHandler(listener, false);
+    public ModeIconWidget onMouseHoverListener(Consumer<ModeIconWidget> listener) {
+        return onMouseHoverListener(listener, false);
     }
 
-    public ModeIconWidget onMouseEnterHandler(Consumer<ModeIconWidget> listener, boolean merge) {
-        if (merge && this.onMouseEnterHandler != null) {
-            final Consumer<ModeIconWidget> oldListener = this.onMouseEnterHandler;
+    public ModeIconWidget onMouseHoverListener(Consumer<ModeIconWidget> listener, boolean merge) {
+        if (merge && this.onMouseHoverListener != null) {
+            final Consumer<ModeIconWidget> oldListener = this.onMouseHoverListener;
             if (listener != null) {
-                this.onMouseEnterHandler = w -> {
+                this.onMouseHoverListener = w -> {
                     oldListener.accept(w);
                     listener.accept(w);
                 };
             }
         } else {
-            this.onMouseEnterHandler = listener;
+            this.onMouseHoverListener = listener;
         }
         return this;
     }
