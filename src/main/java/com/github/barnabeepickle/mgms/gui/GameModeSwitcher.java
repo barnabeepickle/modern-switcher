@@ -104,7 +104,7 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .textBuilder(text -> text.add(IKey.lang("ui.switcher.keybind_next", IKey.lang("ui.switcher.brackets", ModernSwitcherMod.switcherKeybind.getDisplayName()))));
         panel.child(keybindNextText);
 
-        CycleButtonWidget creative = new CycleButtonWidget()
+        ModeIconWidget creative = new ModeIconWidget()
                 .value(this.creative)
                 .size(24)
                 .disableHoverBackground()
@@ -115,7 +115,7 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .stateOverlay(true, Assets.SWITCHER_SLOT_SELECTED)
                 .child(new ItemDrawable(Blocks.GRASS).asWidget().center());
 
-        CycleButtonWidget survival = new CycleButtonWidget()
+        ModeIconWidget survival = new ModeIconWidget()
                 .value(this.survival)
                 .size(24)
                 .disableHoverBackground()
@@ -126,7 +126,7 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .stateOverlay(true, Assets.SWITCHER_SLOT_SELECTED)
                 .child(new ItemDrawable(Items.IRON_SWORD).asWidget().center());
 
-        CycleButtonWidget adventure = new CycleButtonWidget()
+        ModeIconWidget adventure = new ModeIconWidget()
                 .value(this.adventure)
                 .size(24)
                 .disableHoverBackground()
@@ -137,7 +137,7 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .stateOverlay(true, Assets.SWITCHER_SLOT_SELECTED)
                 .child(new ItemDrawable(Items.MAP).asWidget().center());
 
-        CycleButtonWidget spectator = new CycleButtonWidget()
+        ModeIconWidget spectator = new ModeIconWidget()
                 .value(this.adventure)
                 .size(24)
                 .disableHoverBackground()
