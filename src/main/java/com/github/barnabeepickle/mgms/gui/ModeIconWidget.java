@@ -11,14 +11,14 @@ import java.util.function.Consumer;
 
 public class ModeIconWidget extends AbstractCycleButtonWidget<ModeIconWidget> {
     @Nullable
-    private Consumer<ModeIconWidget> onMouseHoverListener;
+    private Consumer<ModeIconWidget> onMouseInAreaListener;
 
     @Override
     public void onUpdate() {
         super.onUpdate();
-        if (this.isEnabled() && this.isHovering()) {
-            if (this.onMouseHoverListener != null) {
-                this.onMouseHoverListener.accept(this);
+        if (this.isEnabled() && this.isBelowMouse()) {
+            if (this.onMouseInAreaListener != null) {
+                this.onMouseInAreaListener.accept(this);
             }
         }
     }
@@ -29,25 +29,25 @@ public class ModeIconWidget extends AbstractCycleButtonWidget<ModeIconWidget> {
     }
 
     @Nullable
-    public Consumer<ModeIconWidget> getOnMouseHoverListener() {
-        return this.onMouseHoverListener;
+    public Consumer<ModeIconWidget> getOnMouseInAreaListener() {
+        return this.onMouseInAreaListener;
     }
 
-    public ModeIconWidget onMouseHoverListener(Consumer<ModeIconWidget> listener) {
-        return onMouseHoverListener(listener, false);
+    public ModeIconWidget onMouseInAreaListener(Consumer<ModeIconWidget> listener) {
+        return onMouseInAreaListener(listener, false);
     }
 
-    public ModeIconWidget onMouseHoverListener(Consumer<ModeIconWidget> listener, boolean merge) {
-        if (merge && this.onMouseHoverListener != null) {
-            final Consumer<ModeIconWidget> oldListener = this.onMouseHoverListener;
+    public ModeIconWidget onMouseInAreaListener(Consumer<ModeIconWidget> listener, boolean merge) {
+        if (merge && this.onMouseInAreaListener != null) {
+            final Consumer<ModeIconWidget> oldListener = this.onMouseInAreaListener;
             if (listener != null) {
-                this.onMouseHoverListener = w -> {
+                this.onMouseInAreaListener = w -> {
                     oldListener.accept(w);
                     listener.accept(w);
                 };
             }
         } else {
-            this.onMouseHoverListener = listener;
+            this.onMouseInAreaListener = listener;
         }
         return this;
     }
