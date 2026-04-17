@@ -42,32 +42,19 @@ public class GameModeSwitcher extends CustomModularScreen {
     private final BoolValue spectator = new BoolValue(false);
 
     private void updateSelectedModeValues() {
+        this.creative.setBoolValue(false);
+        this.survival.setBoolValue(false);
+        this.adventure.setBoolValue(false);
+        this.spectator.setBoolValue(false);
         switch (this.selectedMode) {
             case CREATIVE:
                 this.creative.setBoolValue(true);
-                this.survival.setBoolValue(false);
-                this.adventure.setBoolValue(false);
-                this.spectator.setBoolValue(false);
             case SURVIVAL:
-                this.creative.setBoolValue(false);
                 this.survival.setBoolValue(true);
-                this.adventure.setBoolValue(false);
-                this.spectator.setBoolValue(false);
             case ADVENTURE:
-                this.creative.setBoolValue(false);
-                this.survival.setBoolValue(false);
                 this.adventure.setBoolValue(true);
-                this.spectator.setBoolValue(false);
             case SPECTATOR:
-                this.creative.setBoolValue(false);
-                this.survival.setBoolValue(false);
-                this.adventure.setBoolValue(false);
                 this.spectator.setBoolValue(true);
-            default:
-                this.creative.setBoolValue(false);
-                this.survival.setBoolValue(false);
-                this.adventure.setBoolValue(false);
-                this.spectator.setBoolValue(false);
         }
     }
 
@@ -218,9 +205,10 @@ public class GameModeSwitcher extends CustomModularScreen {
             //    this.attemptSwitchMode(minecraft);
             //    panel.closeIfOpen();
             //}
-            if (ModernSwitcherMod.switcherKeybind.isPressed()) {
+            if (ModernSwitcherMod.switcherKeybind.isKeyDown()) {
                 advanceMode();
             }
+            ModernSwitcherMod.LOGGER.info("Current Selected Gamemode: {}", this.selectedMode.getName());
         });
 
         return panel;
