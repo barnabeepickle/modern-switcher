@@ -109,8 +109,6 @@ public class GameModeSwitcher extends CustomModularScreen {
 
         ModularPanel panel = ModularPanel.defaultPanel("switcher_panel").size(125, 75);
 
-        // RichTextWidget is currently broken and won't center the text correctly
-        // this will be fixed in the next modularui update
         RichTextWidget gamemodeText = new RichTextWidget()
                 .horizontalCenter()
                 .fullWidth()
@@ -128,8 +126,6 @@ public class GameModeSwitcher extends CustomModularScreen {
         });
         panel.child(gamemodeText);
 
-        // RichTextWidget is currently broken and won't center the text correctly
-        // this will be fixed in the next modularui update
         RichTextWidget keybindNextText = new RichTextWidget()
                 .horizontalCenter()
                 .fullWidth()
