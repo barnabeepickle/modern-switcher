@@ -17,7 +17,6 @@ import net.minecraft.init.Items;
 import net.minecraft.world.GameType;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -134,7 +133,7 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .background(Assets.SWITCHER_SLOT)
                 .stateOverlay(true, Assets.SWITCHER_SLOT_SELECTED)
                 .child(new ItemDrawable(Blocks.GRASS).asWidget().center())
-                .onMouseHoverListener(listener -> {
+                .onMouseInAreaListener(listener -> {
                     this.selectedMode = GameType.CREATIVE;
                     this.updateSelectedModeValues();
                 });
@@ -150,7 +149,7 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .background(Assets.SWITCHER_SLOT)
                 .stateOverlay(true, Assets.SWITCHER_SLOT_SELECTED)
                 .child(new ItemDrawable(Items.IRON_SWORD).asWidget().center())
-                .onMouseHoverListener(listener -> {
+                .onMouseInAreaListener(listener -> {
                     this.selectedMode = GameType.SURVIVAL;
                     this.updateSelectedModeValues();
                 });
@@ -166,7 +165,7 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .background(Assets.SWITCHER_SLOT)
                 .stateOverlay(true, Assets.SWITCHER_SLOT_SELECTED)
                 .child(new ItemDrawable(Items.MAP).asWidget().center())
-                .onMouseHoverListener(listener -> {
+                .onMouseInAreaListener(listener -> {
                     this.selectedMode = GameType.ADVENTURE;
                     this.updateSelectedModeValues();
                 });
@@ -182,7 +181,7 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .background(Assets.SWITCHER_SLOT)
                 .stateOverlay(true, Assets.SWITCHER_SLOT_SELECTED)
                 .child(Assets.SPECTATOR_ICON.asWidget().center())
-                .onMouseHoverListener(listener -> {
+                .onMouseInAreaListener(listener -> {
                     this.selectedMode = GameType.SPECTATOR;
                     this.updateSelectedModeValues();
                 });
