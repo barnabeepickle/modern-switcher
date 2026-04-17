@@ -200,11 +200,7 @@ public class GameModeSwitcher extends CustomModularScreen {
         panel.child(modeButtons);
 
         panel.onUpdateListener(listener -> {
-            //if (!Keyboard.isKeyDown(Keyboard.KEY_F3)) {
-            //    this.attemptSwitchMode(minecraft);
-            //    panel.closeIfOpen();
-            //}
-            if (ModernSwitcherMod.switcherKeybind.isKeyDown()) {
+            if (ModernSwitcherMod.switcherKeybind.isPressed()) {
                 advanceMode();
             }
             ModernSwitcherMod.LOGGER.info("Current Selected Gamemode: {}", this.selectedMode.getName());
