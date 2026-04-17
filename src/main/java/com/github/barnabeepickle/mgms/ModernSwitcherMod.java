@@ -24,7 +24,7 @@ public class ModernSwitcherMod {
 
     @Mod.EventHandler
     public void preLoadEvent(FMLPreInitializationEvent event) {
-        switcherKeybind = new KeyBinding("key." + Tags.MODID + ".switcher", KeyConflictContext.IN_GAME, Keyboard.KEY_F4, "key.category." + Tags.MODID);
+        switcherKeybind = new KeyBinding("key." + Tags.MODID + ".switcher", KeyConflictContext.GUI, Keyboard.KEY_F4, "key.category." + Tags.MODID);
         ClientRegistry.registerKeyBinding(switcherKeybind);
     }
 
