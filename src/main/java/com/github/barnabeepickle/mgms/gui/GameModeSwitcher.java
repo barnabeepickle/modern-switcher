@@ -208,6 +208,7 @@ public class GameModeSwitcher extends CustomModularScreen {
         panel.child(modeButtons);
 
         panel.onUpdateListener(listener -> {
+            // TODO: Clean this up and move it to a different method
             if (this.selectedMode == GameType.NOT_SET) {
                 // This large block of checks determines the value of this.selectedMode
                 // for when the UI is opened or this.selectedMode is not set
