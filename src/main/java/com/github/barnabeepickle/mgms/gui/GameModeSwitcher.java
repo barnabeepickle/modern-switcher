@@ -208,35 +208,8 @@ public class GameModeSwitcher extends CustomModularScreen {
         panel.child(modeButtons);
 
         panel.onUpdateListener(listener -> {
-            // TODO: Clean this up and move it to a different method
             if (this.selectedMode == GameType.NOT_SET) {
-                // This large block of checks determines the value of this.selectedMode
-                // for when the UI is opened or this.selectedMode is not set
-                if (!modeHistory.isEmpty()) {
-                    GameType mode = minecraft.playerController.getCurrentGameType();
-                    if (mode == modeHistory.get(modeHistory.size() - 1)) {
-                        if (modeHistory.size() > 1) {
-                            // This is 2 different checks to avoid out of bounds errors
-                            if (mode == modeHistory.get(modeHistory.size() - 2)) {
-                                if (mode == GameType.CREATIVE) {
-                                    this.selectedMode = GameType.SPECTATOR;
-                                } else {
-                                    this.selectedMode = GameType.CREATIVE;
-                                }
-                            }
-                        } else {
-                            this.selectedMode = modeHistory.get(modeHistory.size() - 2);
-                        }
-                    } else {
-                        this.selectedMode = modeHistory.get(modeHistory.size() - 1);
-                    }
-                } else {
-                    if (minecraft.playerController.getCurrentGameType() == GameType.CREATIVE) {
-                        this.selectedMode = GameType.SPECTATOR;
-                    } else {
-                        this.selectedMode = GameType.CREATIVE;
-                    }
-                }
+                this.determineMode(minecraft.playerController.getCurrentGameType());
             }
 
             // Using pressTime makes it so the key can only trigger actions once
@@ -257,5 +230,35 @@ public class GameModeSwitcher extends CustomModularScreen {
         });
 
         return panel;
+    }
+
+    public void determineMode(GameType currentMode) {
+        // TODO: Rewrite/rework this check to be better
+        // This large block of checks determines the value of this.selectedMode
+        // for when the UI is opened or this.selectedMode is not set
+        if (!modeHistory.isEmpty()) {
+            if (currentMode == modeHistory.get(modeHistory.size() - 1)) {
+                if (modeHistory.size() > 1) {
+                    // This is 2 different checks to avoid out of bounds errors
+                    if (currentMode == modeHistory.get(modeHistory.size() - 2)) {
+                        this.selectedMode = modeCompare(currentMode);
+                    }
+                } else {
+                    this.selectedMode = modeHistory.get(modeHistory.size() - 2);
+                }
+            } else {
+                this.selectedMode = modeHistory.get(modeHistory.size() - 1);
+            }
+        } else {
+            this.selectedMode = modeCompare(currentMode);
+        }
+    }
+
+    public static GameType modeCompare(GameType currentMode) {
+        if (currentMode == GameType.CREATIVE) {
+            return GameType.SPECTATOR;
+        } else {
+            return GameType.CREATIVE;
+        }
     }
 }
