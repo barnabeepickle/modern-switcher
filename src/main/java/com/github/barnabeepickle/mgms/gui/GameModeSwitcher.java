@@ -7,7 +7,6 @@ import com.cleanroommc.modularui.screen.CustomModularScreen;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.viewport.ModularGuiContext;
 import com.cleanroommc.modularui.utils.Alignment;
-import com.cleanroommc.modularui.value.BoolValue;
 import com.cleanroommc.modularui.widgets.RichTextWidget;
 import com.cleanroommc.modularui.widgets.layout.Flow;
 import com.github.barnabeepickle.mgms.ModernSwitcherMod;
@@ -36,28 +35,24 @@ public class GameModeSwitcher extends CustomModularScreen {
         return minecraft.playerController.getCurrentGameType();
     }
 
-    private final BoolValue creative = new BoolValue(false);
-    private final BoolValue survival = new BoolValue(false);
-    private final BoolValue adventure = new BoolValue(false);
-    private final BoolValue spectator = new BoolValue(false);
-
     private void updateSelectedModeValues() {
-        this.creative.setBoolValue(false);
-        this.survival.setBoolValue(false);
-        this.adventure.setBoolValue(false);
-        this.spectator.setBoolValue(false);
+        this.modeWidgets[0].disableOverlay();
+        this.modeWidgets[1].disableOverlay();
+        this.modeWidgets[2].disableOverlay();
+        this.modeWidgets[3].disableOverlay();
+
         switch (this.selectedMode) {
             case CREATIVE:
-                this.creative.setBoolValue(true);
+                this.modeWidgets[0].enableOverlay();
                 return;
             case SURVIVAL:
-                this.survival.setBoolValue(true);
+                this.modeWidgets[1].enableOverlay();
                 return;
             case ADVENTURE:
-                this.adventure.setBoolValue(true);
+                this.modeWidgets[2].enableOverlay();
                 return;
             case SPECTATOR:
-                this.spectator.setBoolValue(true);
+                this.modeWidgets[3].enableOverlay();
                 return;
         }
     }
@@ -106,6 +101,8 @@ public class GameModeSwitcher extends CustomModularScreen {
      */
     private static int pressTime = 0;
 
+    private ModeSelectWidget[] modeWidgets;
+
     @Nonnull
     @Override
     public ModularPanel buildUI(ModularGuiContext context) {
@@ -139,66 +136,63 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .textBuilder(text -> text.add(IKey.lang("ui.switcher.keybind_next", IKey.lang("ui.switcher.brackets", ModernSwitcherMod.switcherKeybind.getDisplayName()))));
         panel.child(keybindNextText);
 
-
-        ModeIconWidget creative = new ModeIconWidget()
-                .value(this.creative)
-                .stateCount(2)
+        ModeSelectWidget creative2 = new ModeSelectWidget()
                 .size(24)
+                .disableHoverOverlay()
                 .disableHoverBackground()
-                .disableHoverThemeBackground(true)
                 .disableThemeBackground(true)
                 .background(Assets.SWITCHER_SLOT)
-                .stateOverlay(true, Assets.SWITCHER_SLOT_SELECTED)
+                .overlay(Assets.SWITCHER_SLOT_SELECTED)
+                .disableOverlay()
                 .child(new ItemDrawable(Blocks.GRASS).asWidget().center())
                 .onMouseInAreaListener(listener -> {
                     this.selectedMode = GameType.CREATIVE;
                     this.updateSelectedModeValues();
                 });
 
-        ModeIconWidget survival = new ModeIconWidget()
-                .value(this.survival)
-                .stateCount(2)
+        ModeSelectWidget survival2 = new ModeSelectWidget()
                 .size(24)
+                .disableHoverOverlay()
                 .disableHoverBackground()
-                .disableHoverThemeBackground(true)
                 .disableThemeBackground(true)
                 .background(Assets.SWITCHER_SLOT)
-                .stateOverlay(true, Assets.SWITCHER_SLOT_SELECTED)
+                .overlay(Assets.SWITCHER_SLOT_SELECTED)
+                .disableOverlay()
                 .child(new ItemDrawable(Items.IRON_SWORD).asWidget().center())
                 .onMouseInAreaListener(listener -> {
                     this.selectedMode = GameType.SURVIVAL;
                     this.updateSelectedModeValues();
                 });
 
-        ModeIconWidget adventure = new ModeIconWidget()
-                .value(this.adventure)
-                .stateCount(2)
+        ModeSelectWidget adventure2 = new ModeSelectWidget()
                 .size(24)
+                .disableHoverOverlay()
                 .disableHoverBackground()
-                .disableHoverThemeBackground(true)
                 .disableThemeBackground(true)
                 .background(Assets.SWITCHER_SLOT)
-                .stateOverlay(true, Assets.SWITCHER_SLOT_SELECTED)
+                .overlay(Assets.SWITCHER_SLOT_SELECTED)
+                .disableOverlay()
                 .child(new ItemDrawable(Items.MAP).asWidget().center())
                 .onMouseInAreaListener(listener -> {
                     this.selectedMode = GameType.ADVENTURE;
                     this.updateSelectedModeValues();
                 });
 
-        ModeIconWidget spectator = new ModeIconWidget()
-                .value(this.spectator)
-                .stateCount(2)
+        ModeSelectWidget spectator2 = new ModeSelectWidget()
                 .size(24)
+                .disableHoverOverlay()
                 .disableHoverBackground()
-                .disableHoverThemeBackground(true)
                 .disableThemeBackground(true)
                 .background(Assets.SWITCHER_SLOT)
-                .stateOverlay(true, Assets.SWITCHER_SLOT_SELECTED)
+                .overlay(Assets.SWITCHER_SLOT_SELECTED)
+                .disableOverlay()
                 .child(Assets.SPECTATOR_ICON.asWidget().center())
                 .onMouseInAreaListener(listener -> {
                     this.selectedMode = GameType.SPECTATOR;
                     this.updateSelectedModeValues();
                 });
+
+        this.modeWidgets = new ModeSelectWidget[]{creative2, survival2, adventure2, spectator2};
 
         Flow modeButtons = Flow.row()
                 .paddingLeft(4)
@@ -207,10 +201,10 @@ public class GameModeSwitcher extends CustomModularScreen {
                 .center()
                 .childPadding(6)
                 .mainAxisAlignment(Alignment.MainAxis.CENTER)
-                .child(creative)
-                .child(survival)
-                .child(adventure)
-                .child(spectator);
+                .child(creative2)
+                .child(survival2)
+                .child(adventure2)
+                .child(spectator2);
         panel.child(modeButtons);
 
         panel.onUpdateListener(listener -> {
