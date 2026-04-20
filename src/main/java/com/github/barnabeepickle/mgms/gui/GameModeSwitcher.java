@@ -208,6 +208,36 @@ public class GameModeSwitcher extends CustomModularScreen {
         panel.child(modeButtons);
 
         panel.onUpdateListener(listener -> {
+            if (this.selectedMode == GameType.NOT_SET) {
+                // This large block of checks determines the value of this.selectedMode
+                // for when the UI is opened or this.selectedMode is not set
+                if (!modeHistory.isEmpty()) {
+                    GameType mode = minecraft.playerController.getCurrentGameType();
+                    if (mode == modeHistory.get(modeHistory.size() - 1)) {
+                        if (modeHistory.size() > 1) {
+                            // This is 2 different checks to avoid out of bounds errors
+                            if (mode == modeHistory.get(modeHistory.size() - 2)) {
+                                if (mode == GameType.CREATIVE) {
+                                    this.selectedMode = GameType.SPECTATOR;
+                                } else {
+                                    this.selectedMode = GameType.CREATIVE;
+                                }
+                            }
+                        } else {
+                            this.selectedMode = modeHistory.get(modeHistory.size() - 2);
+                        }
+                    } else {
+                        this.selectedMode = modeHistory.get(modeHistory.size() - 1);
+                    }
+                } else {
+                    if (minecraft.playerController.getCurrentGameType() == GameType.CREATIVE) {
+                        this.selectedMode = GameType.SPECTATOR;
+                    } else {
+                        this.selectedMode = GameType.CREATIVE;
+                    }
+                }
+            }
+
             // Using pressTime makes it so the key can only trigger actions once
             if (checkKeybindWrapper()) {
                 if (pressTime == 0) {
