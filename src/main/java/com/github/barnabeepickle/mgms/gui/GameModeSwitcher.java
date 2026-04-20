@@ -19,12 +19,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 
 @SideOnly(Side.CLIENT)
 public class GameModeSwitcher extends CustomModularScreen {
-    private static final ArrayList<GameType> modeHistory = new ArrayList<>(0);
     private GameType selectedMode = GameType.NOT_SET;
+    private static GameType previousMode = GameType.NOT_SET;
 
     public GameModeSwitcher(String owner) {
         super(owner);
@@ -61,7 +60,7 @@ public class GameModeSwitcher extends CustomModularScreen {
         if (minecraft.player.canUseCommand(2, "")) {
             if (this.selectedMode != getCurrentMode(minecraft) && !this.selectedMode.equals(GameType.NOT_SET)) {
                 minecraft.player.sendChatMessage("/gamemode " + this.selectedMode.getName());
-                modeHistory.add(this.selectedMode);
+                previousMode = this.selectedMode;
             }
         } else {
             minecraft.debugFeedbackTranslated("debug.mgms.switcher.error.permissions");
@@ -208,11 +207,17 @@ public class GameModeSwitcher extends CustomModularScreen {
         panel.child(modeButtons);
 
         panel.onUpdateListener(listener -> {
+            // This code determines what this.selectedMode should be when you open the UI
             if (this.selectedMode == GameType.NOT_SET) {
                 this.determineMode(minecraft.playerController.getCurrentGameType());
             }
 
-            // Using pressTime makes it so the key can only trigger actions once
+
+            // This code handles cycling through the modes using the F4 key
+            // Since in this context the normal code for querying a keybind doesn't work we can't use .isPressed()
+            // which would normally implement only running once per time the key is pressed the following code
+            // implements a version of that system so we don't repeatedly run the code every tick. -pickle
+            // TODO: rewrite this code comment, it sucks -pickle
             if (checkKeybindWrapper()) {
                 if (pressTime == 0) {
                     advanceMode();
@@ -226,31 +231,20 @@ public class GameModeSwitcher extends CustomModularScreen {
                     pressTime = 0;
                 }
             }
-            // All of this is because in this context I can't use the normal keybind querying code
         });
 
         return panel;
     }
 
+    /**
+     * Determines what gamemode to set {@link com.github.barnabeepickle.mgms.gui.GameModeSwitcher#selectedMode} to.
+     * @param currentMode The player's current {@link net.minecraft.world.GameType}.
+     */
     public void determineMode(GameType currentMode) {
-        // TODO: Rewrite/rework this check to be better
-        // This large block of checks determines the value of this.selectedMode
-        // for when the UI is opened or this.selectedMode is not set
-        if (!modeHistory.isEmpty()) {
-            if (currentMode == modeHistory.get(modeHistory.size() - 1)) {
-                if (modeHistory.size() > 1) {
-                    // This is 2 different checks to avoid out of bounds errors
-                    if (currentMode == modeHistory.get(modeHistory.size() - 2)) {
-                        this.selectedMode = modeCompare(currentMode);
-                    }
-                } else {
-                    this.selectedMode = modeHistory.get(modeHistory.size() - 2);
-                }
-            } else {
-                this.selectedMode = modeHistory.get(modeHistory.size() - 1);
-            }
-        } else {
+        if (previousMode == GameType.NOT_SET) {
             this.selectedMode = modeCompare(currentMode);
+        } else {
+            this.selectedMode = previousMode;
         }
     }
 
