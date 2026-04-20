@@ -17,6 +17,7 @@ import net.minecraft.init.Items;
 import net.minecraft.world.GameType;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -48,12 +49,16 @@ public class GameModeSwitcher extends CustomModularScreen {
         switch (this.selectedMode) {
             case CREATIVE:
                 this.creative.setBoolValue(true);
+                return;
             case SURVIVAL:
                 this.survival.setBoolValue(true);
+                return;
             case ADVENTURE:
                 this.adventure.setBoolValue(true);
+                return;
             case SPECTATOR:
                 this.spectator.setBoolValue(true);
+                return;
         }
     }
 
@@ -73,20 +78,33 @@ public class GameModeSwitcher extends CustomModularScreen {
             case CREATIVE:
                 this.selectedMode = GameType.SURVIVAL;
                 this.updateSelectedModeValues();
+                return;
             case SURVIVAL:
                 this.selectedMode = GameType.ADVENTURE;
                 this.updateSelectedModeValues();
+                return;
             case ADVENTURE:
                 this.selectedMode = GameType.SPECTATOR;
                 this.updateSelectedModeValues();
+                return;
             case SPECTATOR:
                 this.selectedMode = GameType.CREATIVE;
                 this.updateSelectedModeValues();
-            default:
-                this.selectedMode = GameType.CREATIVE;
-                this.updateSelectedModeValues();
+                return;
         }
     }
+
+    /**
+     * A shortcut method to check if the switcher keybind is pressed.
+     */
+    private static boolean checkKeybindWrapper() {
+        return Keyboard.isKeyDown(ModernSwitcherMod.switcherKeybind.getKeyCode());
+    }
+
+    /**
+     * A variable used to register key presses only once.
+     */
+    private static int pressTime = 0;
 
     @Nonnull
     @Override
@@ -124,7 +142,7 @@ public class GameModeSwitcher extends CustomModularScreen {
 
         ModeIconWidget creative = new ModeIconWidget()
                 .value(this.creative)
-                .stateCount(1)
+                .stateCount(2)
                 .size(24)
                 .disableHoverBackground()
                 .disableHoverOverlay()
@@ -140,7 +158,7 @@ public class GameModeSwitcher extends CustomModularScreen {
 
         ModeIconWidget survival = new ModeIconWidget()
                 .value(this.survival)
-                .stateCount(1)
+                .stateCount(2)
                 .size(24)
                 .disableHoverBackground()
                 .disableHoverOverlay()
@@ -156,7 +174,7 @@ public class GameModeSwitcher extends CustomModularScreen {
 
         ModeIconWidget adventure = new ModeIconWidget()
                 .value(this.adventure)
-                .stateCount(1)
+                .stateCount(2)
                 .size(24)
                 .disableHoverBackground()
                 .disableHoverOverlay()
@@ -172,7 +190,7 @@ public class GameModeSwitcher extends CustomModularScreen {
 
         ModeIconWidget spectator = new ModeIconWidget()
                 .value(this.spectator)
-                .stateCount(1)
+                .stateCount(2)
                 .size(24)
                 .disableHoverBackground()
                 .disableHoverOverlay()
@@ -200,10 +218,21 @@ public class GameModeSwitcher extends CustomModularScreen {
         panel.child(modeButtons);
 
         panel.onUpdateListener(listener -> {
-            if (ModernSwitcherMod.switcherKeybind.isPressed()) {
-                advanceMode();
+            // Using pressTime makes it so the key can only trigger actions once
+            if (checkKeybindWrapper()) {
+                if (pressTime == 0) {
+                    advanceMode();
+                    ModernSwitcherMod.LOGGER.info("Key triggered");
+                    ModernSwitcherMod.LOGGER.info("Current Selected Gamemode: {}", this.selectedMode.getName());
+                }
+                pressTime++;
             }
-            ModernSwitcherMod.LOGGER.info("Current Selected Gamemode: {}", this.selectedMode.getName());
+            if (!checkKeybindWrapper()) {
+                if (pressTime != 0) {
+                    pressTime = 0;
+                }
+            }
+            // All of this is because in this context I can't use the normal keybind querying code
         });
 
         return panel;
