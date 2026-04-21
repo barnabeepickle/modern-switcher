@@ -213,7 +213,6 @@ public class GameModeSwitcher extends CustomModularScreen {
                 this.determineMode(minecraft.playerController.getCurrentGameType());
             }
 
-
             // This code handles cycling through the modes using the F4 key
             // Since the normal keybind querying code doesn't work in this context we can't use .isPressed()
             // so I did a quick and dirty reimplementation of it to use instead, this fixed running advanceMode() repeatedly
