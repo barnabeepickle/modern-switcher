@@ -215,13 +215,11 @@ public class GameModeSwitcher extends CustomModularScreen {
 
 
             // This code handles cycling through the modes using the F4 key
-            // Since in this context the normal code for querying a keybind doesn't work we can't use .isPressed()
-            // which would normally implement only running once per time the key is pressed the following code
-            // implements a version of that system so we don't repeatedly run the code every tick. -pickle
-            // TODO: rewrite this code comment, it sucks -pickle
+            // Since the normal keybind querying code doesn't work in this context we can't use .isPressed()
+            // so I did a quick and dirty reimplementation of it to use instead, this fixed running advanceMode repeatedly
             if (checkKeybindWrapper()) {
                 if (pressTime == 0) {
-                    advanceMode();
+                    this.advanceMode();
                 }
                 pressTime++;
             }
