@@ -60,6 +60,7 @@ public class GameModeSwitcher extends CustomModularScreen {
         if (minecraft.player.canUseCommand(2, "")) {
             if (this.selectedMode != getCurrentMode(minecraft) && !this.selectedMode.equals(GameType.NOT_SET)) {
                 minecraft.player.sendChatMessage("/gamemode " + this.selectedMode.getName());
+                ModernSwitcherMod.LOGGER.info("Gamemode Switcher: Switched to: {}", this.selectedMode.getName());
                 previousMode = this.selectedMode;
             }
         } else {
@@ -221,8 +222,6 @@ public class GameModeSwitcher extends CustomModularScreen {
             if (checkKeybindWrapper()) {
                 if (pressTime == 0) {
                     advanceMode();
-                    ModernSwitcherMod.LOGGER.info("Key triggered");
-                    ModernSwitcherMod.LOGGER.info("Current Selected Gamemode: {}", this.selectedMode.getName());
                 }
                 pressTime++;
             }
@@ -231,10 +230,21 @@ public class GameModeSwitcher extends CustomModularScreen {
                     pressTime = 0;
                 }
             }
+
+            // This code handles switching the player's gamemode when F3 isn't being pressed
+            if (!this.willClose) {
+                if (!Keyboard.isKeyDown(Keyboard.KEY_F3)) {
+                    this.willClose = true;
+                    this.attemptSwitchMode(listener.getContext().getMC());
+                    //listener.closeIfOpen();
+                }
+            }
         });
 
         return panel;
     }
+
+    private boolean willClose = false;
 
     /**
      * Determines what gamemode to set {@link com.github.barnabeepickle.mgms.gui.GameModeSwitcher#selectedMode} to.
