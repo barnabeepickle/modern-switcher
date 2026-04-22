@@ -1,5 +1,7 @@
 package com.github.barnabeepickle.mgms;
 
+import com.cleanroommc.modularui.factory.ClientGUI;
+import com.cleanroommc.modularui.screen.ModularPanel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.settings.KeyConflictContext;
@@ -35,5 +37,9 @@ public class ModernSwitcherMod {
 
     public static boolean canSwitchGameMode(Minecraft minecraft) {
         return minecraft.player != null && minecraft.world != null;
+    }
+
+    public static void closeSwitcher() {
+        ClientGUI.close();
     }
 }

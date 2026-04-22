@@ -233,7 +233,6 @@ public class GameModeSwitcher extends CustomModularScreen {
                 if (!Keyboard.isKeyDown(Keyboard.KEY_F3)) {
                     this.willClose = true;
                     this.attemptSwitchMode(listener.getContext().getMC());
-                    //listener.closeIfOpen();
                 }
             }
         });
